@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
+import apiUrl from '../config';
 
 export const TaskContext = createContext();
 
@@ -17,7 +18,7 @@ export const TaskProvider = ({ children }) => {
   const fetchTasks = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('/tasks', {
+      const response = await axios.get(`${apiUrl}/tasks`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks(response.data);
@@ -30,7 +31,7 @@ export const TaskProvider = ({ children }) => {
 
   const createTask = async (task) => {
     try {
-      const response = await axios.post('/tasks', task, {
+      const response = await axios.post(`${apiUrl}/tasks`, task, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks([...tasks, { ...task, id: response.data.taskId }]);
@@ -41,7 +42,7 @@ export const TaskProvider = ({ children }) => {
 
   const updateTask = async (taskId, updates) => {
     try {
-      await axios.put('/tasks', { taskId, ...updates }, {
+      await axios.put(`${apiUrl}/tasks`, { taskId, ...updates }, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks(tasks.map((task) => (task.id === taskId ? { ...task, ...updates } : task)));
@@ -52,7 +53,7 @@ export const TaskProvider = ({ children }) => {
 
   const deleteTask = async (taskId) => {
     try {
-      await axios.delete(`/tasks/${taskId}`, {
+      await axios.delete(`${apiUrl}/tasks/${taskId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks(tasks.filter((task) => task.id !== taskId));
