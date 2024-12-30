@@ -5,16 +5,33 @@
 @tailwind utilities;
 
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+} */
+
+input {
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
   
-  .App-header {
-    text-align: center;
-  }
+.App-header {
+  text-align: center;
+}
   

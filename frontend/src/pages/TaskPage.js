@@ -1,8 +1,8 @@
-// In TaskPage.js
 import React from 'react';
+import TaskDashboard from '../components/Task/TaskDashboard';
 
 const TaskPage = () => {
-  return <h1>Task Dashboard</h1>;
+  return <TaskDashboard />;
 };
 
 export default TaskPage;

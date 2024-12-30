@@ -1,42 +1,64 @@
-// src/pages/LoginPage.js
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // Custom Hook to use Auth context
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 function LoginPage() {
-  const { login } = useAuth();
-  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Call login function from AuthContext to authenticate
-    const success = await login(email, password);
-    if (success) {
-      navigate('/tasks'); // Redirect to tasks page after login
+    try {
+      await login(email, password);
+      window.location.href = '/tasks'; // Redirect to task dashboard
+    } catch (err) {
+      setError('Invalid credentials. Please try again.');
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-center">
-      <div className="bg-white p-8 rounded shadow-md">
-        <h2 className="text-2xl font-bold mb-4">Login</h2>
-        <form>
-          <input
-            type="email"
-            className="border p-2 mb-4 w-full"
-            placeholder="Email"
-          />
-          <input
-            type="password"
-            className="border p-2 mb-4 w-full"
-            placeholder="Password"
-          />
-          <button type="submit" className="bg-blue-500 text-white w-full py-2">
-            Log In
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center mb-6 text-gray-700">Login</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Password</label>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          {error && <p className="text-sm text-red-500">{error}</p>}
+          <button
+            type="submit"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md"
+          >
+            Login
           </button>
         </form>
+        <p className="mt-4 text-sm text-gray-600 text-center">
+          Don’t have an account?{' '}
+          <Link to="/register" className="text-blue-500 hover:underline">
+            Register here
+          </Link>
+        </p>
       </div>
     </div>
   );

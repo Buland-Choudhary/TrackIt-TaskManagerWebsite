@@ -1,27 +1,67 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
-const AuthContext = createContext();
-
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+  // Initialize state with values from localStorage if available
+  const [user, setUser] = useState(localStorage.getItem('user')); // Get user info from localStorage
+  const [token, setToken] = useState(localStorage.getItem('token')); // Get token from localStorage
 
-  const login = (userData) => {
-    setUser(userData);
-    setToken(userData.token);
+  useEffect(() => {
+    // Set the Authorization header if token exists
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+  }, [token]);
+
+  const register = async (name, email, password) => {
+    try {
+      const response = await axios.post(`/auth/register`, {
+        name,
+        email,
+        password,
+      });
+      const { token } = response.data;
+      setToken(token);
+      setUser(email); // Store email as user info
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', email); // Save user info in localStorage
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    } catch (error) {
+      console.error('Registration failed:', error.response?.data || error.message);
+      throw error;
+    }
+  };
+
+  const login = async (email, password) => {
+    try {
+      const response = await axios.post(`/auth/login`, {
+        email,
+        password,
+      });
+      const { token } = response.data;
+      setToken(token);
+      setUser(email); // Set email as user info
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', email); // Save user info in localStorage
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    } catch (error) {
+      console.error('Login failed:', error.response?.data || error.message);
+      throw error;
+    }
   };
 
   const logout = () => {
-    setUser(null);
     setToken(null);
+    setUser(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('user'); // Clear user info from localStorage
+    delete axios.defaults.headers.common['Authorization'];
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, register, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
