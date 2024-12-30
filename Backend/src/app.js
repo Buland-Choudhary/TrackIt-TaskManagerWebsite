@@ -14,7 +14,7 @@ const app = express();
 app.use(cors());
 app.use(express.json()); // Parse JSON requests
 
-// Routes
+// Routes for authentication and task management
 const authRoutes = require('./routes/authRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 
