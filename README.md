@@ -133,4 +133,4 @@ Feel free to explore the live demo and check out the source code to understand h
 
 ### Contact
 
-For any questions or feedback, feel free to reach out to the project creator: **Buland Choudhary [LinkedIn](www.linkedin.com/in/buland-choudhary)**. 
+For any questions or feedback, feel free to reach out to the project creator: **Buland Choudhary [LinkedIn](https://linkedin.com/in/buland-choudhary)**. 
