@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext } from 'react'; 
 import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
 function LoginPage() {
   const { login } = useContext(AuthContext);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('sampleuser@example.com'); // Pre-filled email
+  const [password, setPassword] = useState('samplepassword123'); // Pre-filled password
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
@@ -16,6 +16,11 @@ function LoginPage() {
     } catch (err) {
       setError('Invalid credentials. Please try again.');
     }
+  };
+
+  const fillSampleCredentials = () => {
+    setEmail('sampleuser@example.com');
+    setPassword('SamplePassword123');
   };
 
   return (
@@ -53,6 +58,21 @@ function LoginPage() {
             Login
           </button>
         </form>
+        <div className="mt-4 text-sm text-gray-600 text-center">
+          <p>
+            Use the sample credentials below for easy access:
+          </p>
+          <p className="text-gray-800">
+            Email: <strong>sampleuser@example.com</strong><br />
+            Password: <strong>samplepassword123</strong>
+          </p>
+          <button
+            onClick={fillSampleCredentials}
+            className="mt-4 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded"
+          >
+            Fill Sample Credentials
+          </button>
+        </div>
         <p className="mt-4 text-sm text-gray-600 text-center">
           Don’t have an account?{' '}
           <Link to="/register" className="text-blue-500 hover:underline">

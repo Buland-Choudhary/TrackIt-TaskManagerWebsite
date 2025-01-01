@@ -1,37 +1,41 @@
 import React, { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';  // Import useNavigate
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 function Header() {
-  const { user, logout } = useContext(AuthContext);  // Access user and logout from context
-  const navigate = useNavigate();  // Initialize useNavigate hook
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout();  // Call logout to clear user and token from context
-    navigate('/login');  // Redirect to login page after logout
+    logout();  // Log the user out
+    navigate('/login');  // Redirect to login page
   };
 
   return (
-    <header className="bg-blue-500 text-white py-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center px-4">
-        <h1 className="text-xl font-bold">
-          <Link to="/">TrackIt</Link>
+    <header className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-6 shadow-lg">
+      <div className="container mx-auto flex justify-between items-center px-6">
+        {/* TrackIt */}
+        <h1
+          onClick={handleLogout}  // Trigger logout when clicked
+          className="text-3xl font-extrabold tracking-wider cursor-pointer"
+        >
+          🚀 TrackIt
         </h1>
         <nav>
-          {/* <Link to="/tasks" className="mr-4 hover:underline">
-            Tasks
-          </Link> */}
           {user ? (
             // If user is logged in, show "Logout" button
             <button
-              onClick={handleLogout}  // Handle logout and redirect to login
-              className="hover:underline"
+              onClick={handleLogout}
+              className="text-lg font-medium bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-all"
             >
               Logout
             </button>
           ) : (
             // If no user is logged in, show "Login"
-            <Link to="/login" className="hover:underline">
+            <Link
+              to="/login"
+              className="text-lg font-medium bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition-all"
+            >
               Login
             </Link>
           )}

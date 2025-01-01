@@ -9,7 +9,7 @@ function App() {
   return (
     <Router>
       <div>
-        <Header /> {/* Include the Header component */}
+        <Header />
         <Routes>
           <Route path="/" element={<Navigate to="/login" />} /> {/* Redirect root to /login */}
           <Route path="/login" element={<LoginPage />} />
