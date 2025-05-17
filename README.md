@@ -1,6 +1,6 @@
 
 # Task Manager Website
-
+![Website Screenshot](/Images/SiteSS.png)
 **Live Demo**: [TrackIt - Live Demo](https://trackitbybuland.netlify.app/)
 
 **By**: Buland Choudhary
