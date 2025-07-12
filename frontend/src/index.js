@@ -10,8 +10,6 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(  // Use the new render method for React 18
   <AuthProvider>
-    <TaskProvider>
-      <App />
-    </TaskProvider>
+    <App />
   </AuthProvider>
 );

@@ -1,9 +1,9 @@
 // App.js
 import React, { Suspense } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
+import { TaskProvider } from './context/TaskContext';  // <-- moved here
 
-// Lazy-loaded pages
 const LoginPage = React.lazy(() => import('./pages/LoginPage'));
 const RegisterPage = React.lazy(() => import('./pages/RegisterPage'));
 const TaskPage = React.lazy(() => import('./pages/TaskPage'));
@@ -13,12 +13,20 @@ function App() {
     <Router>
       <div>
         <Header />
-        <Suspense fallback={<div className="text-center mt-4">Loading...</div>}>
+        <Suspense fallback={<div className="text-center mt-10">Loading...</div>}>
           <Routes>
             <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/tasks" element={<TaskPage />} />
+            {/* Only wrap tasks with TaskProvider */}
+            <Route
+              path="/tasks"
+              element={
+                <TaskProvider>
+                  <TaskPage />
+                </TaskProvider>
+              }
+            />
           </Routes>
         </Suspense>
       </div>
