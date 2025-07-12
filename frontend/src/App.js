@@ -1,21 +1,26 @@
-import React from 'react';
+// App.js
+import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import TaskPage from './pages/TaskPage';
-import Header from './components/Header';  // Import Header
+import Header from './components/Header';
+
+// Lazy-loaded pages
+const LoginPage = React.lazy(() => import('./pages/LoginPage'));
+const RegisterPage = React.lazy(() => import('./pages/RegisterPage'));
+const TaskPage = React.lazy(() => import('./pages/TaskPage'));
 
 function App() {
   return (
     <Router>
       <div>
         <Header />
-        <Routes>
-          <Route path="/" element={<Navigate to="/login" />} /> {/* Redirect root to /login */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/tasks" element={<TaskPage />} />
-        </Routes>
+        <Suspense fallback={<div className="text-center mt-4">Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/tasks" element={<TaskPage />} />
+          </Routes>
+        </Suspense>
       </div>
     </Router>
   );
