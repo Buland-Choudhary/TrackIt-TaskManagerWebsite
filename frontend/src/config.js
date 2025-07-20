@@ -1,4 +1,4 @@
-const apiUrl = "https://continued-ginni-bulandchoudhary-3b2bb51c.koyeb.app/project/trackit";  // URL of hosted backend
+const apiUrl = "https://trackit-mm9q.onrender.com";  // URL of hosted backend
 //const apiUrl = "http://localhost:5000";                 // URL of local backend
 
 export default apiUrl;
